@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>How many Ankits? — Friendly Height Prank</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card:#081226;
+      --accent:#7C3AED;
+      --muted: #9aa4b2;
+      --glass: rgba(255,255,255,0.04);
+      --friend-height-cm:160;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(124,58,237,0.12), transparent), radial-gradient(900px 400px at 90% 90%, rgba(14,165,233,0.06), transparent), var(--bg);
+      color:#e6eef8;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:40px;
+    }
+
+    .wrapper{
+      width:100%;
+      max-width:1100px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:18px;
+      padding:28px;
+      box-shadow: 0 10px 30px rgba(2,6,23,0.7);
+      display:grid;
+      grid-template-columns: 420px 1fr;
+      gap:22px;
+      align-items:stretch;
+    }
+
+    .panel{
+      background:var(--card);
+      border-radius:14px;
+      padding:18px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+    }
+
+    h1{font-size:20px;margin:0 0 8px 0}
+    p.lead{color:var(--muted);margin-top:0;font-size:13px}
+
+    .controls{display:flex;flex-direction:column;gap:12px;margin-top:12px}
+    .row{display:flex;gap:8px;align-items:center}
+
+    label.small{font-size:12px;color:var(--muted)}
+    input[type=number], input[type=text], select{
+      width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:var(--glass);color:inherit;font-size:15px
+    }
+    .units{display:flex;gap:8px}
+    .btn{
+      padding:10px 14px;border-radius:10px;border:none;background:linear-gradient(90deg,var(--accent),#06b6d4);color:white;font-weight:600;cursor:pointer;box-shadow:0 6px 18px rgba(124,58,237,0.12);
+    }
+    .small-muted{font-size:12px;color:var(--muted)}
+
+    /* Visual column */
+    .visual{
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:18px
+    }
+
+    .ruler-card{width:100%;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:16px;display:flex;gap:16px;align-items:center}
+    .ruler{position:relative;height:340px;width:120px;background:linear-gradient(180deg,#071226,#091526);border-radius:8px;padding:8px;display:flex;align-items:flex-end;justify-content:center}
+
+    .tick{position:absolute;left:0;width:100%;height:1px;background:transparent}
+    .height-label{position:absolute;left:100%;transform:translateX(12px);font-size:12px;color:var(--muted)}
+
+    .silhouettes{position:relative;height:320px;width:100%;display:flex;align-items:flex-end;gap:36px;padding:6px}
+    .person{width:80px;display:flex;flex-direction:column;align-items:center;gap:6px}
+    .figure{width:48px;border-radius:6px;background:linear-gradient(180deg,#94a3b8 0%, #475569 100%);box-shadow:0 8px 30px rgba(2,6,23,0.6);display:flex;align-items:flex-end;justify-content:center;transition:height 700ms cubic-bezier(.2,.9,.3,1)}
+    .label{font-size:13px;font-weight:700}
+    .sub{font-size:12px;color:var(--muted)}
+
+    .result-box{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:16px;text-align:center}
+    .big{font-size:36px;font-weight:800;letter-spacing:-1px}
+    .tiny{font-size:12px;color:var(--muted)}
+
+    footer{font-size:12px;color:var(--muted);text-align:center;margin-top:8px}
+
+    /* responsive */
+    @media (max-width:920px){
+      .wrapper{grid-template-columns:1fr;}
+    }
+
+    /* playful sparkles */
+    .sparkle{position:absolute;width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.08);box-shadow:0 0 18px rgba(124,58,237,0.18);opacity:0;pointer-events:none;animation:twinkle 2.2s linear infinite}
+    @keyframes twinkle{0%{opacity:0;transform:translateY(0) scale(.6)}50%{opacity:1;transform:translateY(-8px) scale(1)}100%{opacity:0;transform:translateY(-12px) scale(.6)}}
+  </style>
+</head>
+<body>
+  <div class="wrapper" role="application">
+    <div class="panel">
+      <h1>How many <span style="color:var(--accent)">Ankits</span> are you?</h1>
+      <p class="lead">We're about to introduce a new standard scale for measurement!</p>
+
+      <div class="controls">
+        <div>
+          <label class="small">Quick pick</label>
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <button class="btn" data-preset="178">I'm 5'10 (178 cm)</button>
+            <button class="btn" data-preset="170" style="background:linear-gradient(90deg,#06b6d4,#7C3AED)">I'm 5'7 (170 cm)</button>
+          </div>
+        </div>
+
+        <div class="row">
+          <div style="flex:1">
+            <label class="small">Enter height (cm)</label>
+            <input id="cmInput" type="number" min="80" max="260" value="178" />
+          </div>
+          <div style="width:120px">
+            <label class="small">Or ft & in</label>
+            <div style="display:flex;gap:6px">
+              <input id="ftInput" type="number" min="3" max="8" value="5" style="width:56px" />
+              <input id="inInput" type="number" min="0" max="11" value="10" style="width:56px" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <button id="calcBtn" class="btn">Convert & Troll</button>
+          <div style="flex:1" class="small-muted">Enter the values!</div>
+        </div>
+
+        <div class="row small-muted">
+          <div>Dummy: <strong>Ankit</strong> — 5'4 / <strong>160 cm</strong></div>
+        </div>
+      </div>
+
+      <div style="margin-top:14px" class="small-muted">Fun Fact: If you are >1 ankit then you are tall</div>
+    </div>
+
+    <div class="panel visual">
+      <div class="ruler-card" aria-hidden>
+        <div style="flex:1">
+          <div class="result-box">
+            <div class="tiny">You are</div>
+            <div id="resultBig" class="big">1.11 Ankits</div>
+            <div class="tiny" id="cmText">178 cm — that's 5'10"</div>
+          </div>
+        </div>
+        <div style="width:260px">
+          <div class="ruler" id="ruler">
+            <!-- ticks generated by JS -->
+            <div class="silhouettes" style="position:relative;width:100%">
+              <div class="person" style="--h:160" id="friend">
+                <div class="figure" style="height:160px; background: linear-gradient(180deg,#f97316,#fb923c);border-radius:8px"></div>
+                <div class="label">Ankit</div>
+                <div class="sub">160 cm</div>
+              </div>
+
+              <div class="person" id="you">
+                <div class="figure" id="youFigure" style="height:178px"></div>
+                <div class="label" id="youLabel">You</div>
+                <div class="sub" id="youSub">178 cm</div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div style="width:100%;display:flex;gap:10px;align-items:center;justify-content:center">
+        <button id="shareBtn" class="btn">Copy site link</button>
+        <button id="confettiBtn" class="btn" style="background:linear-gradient(90deg,#fb7185,#f97316)">some random sh*t 🎉</button>
+      </div>
+      <footer>Maa chudao</footer>
+    </div>
+  </div>
+
+  <script>
+    const FRIEND_CM = 160;
+    const cmInput = document.getElementById('cmInput');
+    const ftInput = document.getElementById('ftInput');
+    const inInput = document.getElementById('inInput');
+    const calcBtn = document.getElementById('calcBtn');
+    const resultBig = document.getElementById('resultBig');
+    const cmText = document.getElementById('cmText');
+    const youFigure = document.getElementById('youFigure');
+    const youSub = document.getElementById('youSub');
+
+    // Quick pick buttons
+    document.querySelectorAll('[data-preset]').forEach(b=>b.addEventListener('click',e=>{
+      const v = Number(e.currentTarget.dataset.preset);
+      cmInput.value = v; // also update ft/in
+      const ft = Math.floor((v/2.54)/12);
+      const inches = Math.round((v/2.54) - (ft*12));
+      ftInput.value = ft; inInput.value = inches;
+      runCalc();
+    }))
+
+    function cmFromFtIn(ft, inch){
+      if (isNaN(ft) || ft===null) ft=0;
+      if (isNaN(inch) || inch===null) inch=0;
+      const totalIn = (Number(ft)*12) + Number(inch);
+      return Math.round(totalIn * 2.54);
+    }
+
+    // parse if user types text like 5'10 or 5ft10in
+    function parseTextHeight(text){
+      if(!text) return null;
+      text = text.trim();
+      // simple match 5'10 or 5 10 or 5ft10
+      const m = text.match(/(\d+)\s*(?:'|ft|ft\.|feet)?\s*(\d{1,2})?/i);
+      if(m){
+        const ft = Number(m[1]);
+        const inch = m[2]?Number(m[2]):0;
+        return cmFromFtIn(ft, inch);
+      }
+      const onlyNum = Number(text);
+      if(!isNaN(onlyNum)) return onlyNum;
+      return null;
+    }
+
+    function toFtIn(cm){
+      const totalIn = cm/2.54;
+      const ft = Math.floor(totalIn/12);
+      const inch = Math.round(totalIn - ft*12);
+      return {ft,inch};
+    }
+
+    function runCalc(){
+      let cm = Number(cmInput.value);
+      // if cm empty try ft/in
+      if(!cm){
+        cm = cmFromFtIn(ftInput.value, inInput.value);
+        cmInput.value = cm;
+      }
+
+      // safety clamps for visual scale
+      const visualClampMin = 100;
+      const visualClampMax = 230;
+
+      const ratio = cm / FRIEND_CM;
+      const displayAnkits = (Math.round(ratio*100)/100).toFixed(2);
+
+      resultBig.textContent = `${displayAnkits} Ankit${displayAnkits==1? '' : 's'}`;
+
+      const ftin = toFtIn(cm);
+      cmText.textContent = `${cm} cm — that's ${ftin.ft}'${ftin.inch}\"`;
+      youSub.textContent = `${cm} cm`;
+
+      // animate your figure height proportionally to friend (friend base 160px)
+      const friendPx = 160;
+      let youPx = Math.round((cm / FRIEND_CM) * friendPx);
+      // clamp visually so it doesn't overflow the card
+      const minPx = Math.round((visualClampMin/FRIEND_CM)*friendPx);
+      const maxPx = Math.round((visualClampMax/FRIEND_CM)*friendPx);
+      youPx = Math.max(minPx, Math.min(maxPx, youPx));
+
+      youFigure.style.height = youPx + 'px';
+
+      // subtle color change depending on taller/shorter
+      if (cm > FRIEND_CM){
+        youFigure.style.background = 'linear-gradient(180deg,#34d399,#10b981)';
+      } else if (cm === FRIEND_CM){
+        youFigure.style.background = 'linear-gradient(180deg,#f59e0b,#f97316)';
+      } else {
+        youFigure.style.background = 'linear-gradient(180deg,#60a5fa,#3b82f6)';
+      }
+
+      // optional playful tweak: pulse result
+      resultBig.animate([{transform:'scale(0.96)'},{transform:'scale(1)'}],{duration:520, easing:'cubic-bezier(.2,.9,.3,1)'});
+    }
+
+    calcBtn.addEventListener('click', ()=>{
+      // allow user to type height like "5'10" into cm input
+      const maybeParsed = parseTextHeight(cmInput.value);
+      if(maybeParsed) cmInput.value = maybeParsed;
+      runCalc();
+    })
+
+    // keep cm in sync with ft/in
+    ftInput.addEventListener('change', ()=>{ cmInput.value = cmFromFtIn(ftInput.value, inInput.value); runCalc();});
+    inInput.addEventListener('change', ()=>{ cmInput.value = cmFromFtIn(ftInput.value, inInput.value); runCalc();});
+
+    cmInput.addEventListener('change', ()=>{
+      const parsed = parseTextHeight(cmInput.value);
+      if(parsed){
+        cmInput.value = parsed;
+        const ftin = toFtIn(parsed);
+        ftInput.value = ftin.ft; inInput.value = ftin.inch;
+      }
+      runCalc();
+    });
+
+    // copy link (simple: encode height as query param)
+    document.getElementById('shareBtn').addEventListener('click', ()=>{
+      const cm = Number(cmInput.value) || 178;
+      const url = new URL(window.location.href);
+      url.searchParams.set('cm', cm);
+      navigator.clipboard.writeText(url.toString()).then(()=>{
+        alert('Troll link copied! Paste it to Ankit 😈');
+      }).catch(()=>alert('Couldn\'t copy — your browser blocked clipboard.'));
+    });
+
+    // confetti (tiny)
+    document.getElementById('confettiBtn').addEventListener('click', ()=>{
+      launchConfetti();
+    });
+
+    function launchConfetti(){
+      // create simple confetti particles
+      for(let i=0;i<30;i++){
+        const el = document.createElement('div');
+        el.className = 'sparkle';
+        el.style.left = (20 + Math.random()*60) + '%';
+        el.style.top = (40 + Math.random()*20) + '%';
+        el.style.transform = `translateY(${Math.random()*-80}px) scale(${0.6+Math.random()*1.2})`;
+        document.body.appendChild(el);
+        setTimeout(()=>el.remove(),2600);
+      }
+    }
+
+    // read URL param to prefill
+    (function init(){
+      const params = new URLSearchParams(window.location.search);
+      const cm = params.get('cm');
+      if(cm){ cmInput.value = cm; const ftin = toFtIn(Number(cm)); ftInput.value = ftin.ft; inInput.value = ftin.inch; }
+      runCalc();
+    })();
+
+    // draw ruler ticks dynamically
+    (function drawTicks(){
+      const ruler = document.getElementById('ruler');
+      const ticks = 8; // visual ticks
+      const parent = ruler;
+      for(let i=0;i<=ticks;i++){
+        const el = document.createElement('div');
+        el.className = 'tick';
+        el.style.bottom = (i*(100/ticks))+'%';
+        el.style.height = (i%2===0?2:1) + 'px';
+        el.style.background = 'rgba(255,255,255,0.03)';
+        parent.appendChild(el);
+      }
+    })();
+  </script>
+</body>
+</html>
